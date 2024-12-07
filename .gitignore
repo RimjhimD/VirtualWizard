@@ -1,0 +1,15 @@
+# Android Studio
+.idea/
+*.iml
+
+# Build files
+/build/
+*/build/
+*/.gradle/
+
+# Local configuration file (local.properties)
+local.properties
+
+# Gradle wrapper files
+gradle-wrapper.jar
+
