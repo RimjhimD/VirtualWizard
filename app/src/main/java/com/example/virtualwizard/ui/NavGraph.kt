@@ -56,7 +56,10 @@ fun NavGraph(
         // Gameplay Screen (state-based navigation)
         composable(Routes.GAMEPLAY) { backStackEntry ->
             val state = backStackEntry.arguments?.getString("state")
-            Gameplay(state = state ?: "1", onNavigateToFighting = { navController.navigate(Routes.FIGHTING_SCREEN.replace("{state}", "1")) })
+            Gameplay(
+                state = state ?: "1",
+                onNavigateToFighting = { navController.navigate(Routes.FIGHTING_SCREEN.replace("{state}", state ?: "1")) }
+            )
         }
 
         // Fighting Screen (state-based navigation)
