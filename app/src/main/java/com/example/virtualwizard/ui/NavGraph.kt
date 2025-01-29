@@ -33,8 +33,10 @@ fun NavGraph(
         // Main Menu
         composable(Routes.MAIN_MENU) {
             MainMenu(
-                onNavigateToSettings = { navController.navigate(Routes.SETTINGS) },
-                onStartGame = { navController.navigate(Routes.GAMEPLAY.replace("{state}", "1")) }
+                onResumeGame = { navController.navigate(Routes.GAMEPLAY.replace("{state}", "resume")) },
+                onStartNewGame = { navController.navigate(Routes.GAMEPLAY.replace("{state}", "new")) },
+                onOptions = { navController.navigate(Routes.SETTINGS) },
+                onExit = { exitApp() }
             )
         }
 
@@ -56,7 +58,10 @@ fun NavGraph(
         // Gameplay Screen (state-based navigation)
         composable(Routes.GAMEPLAY) { backStackEntry ->
             val state = backStackEntry.arguments?.getString("state")
-            Gameplay(state = state ?: "1", onNavigateToFighting = { navController.navigate(Routes.FIGHTING_SCREEN.replace("{state}", "1")) })
+            Gameplay(
+                state = state ?: "1",
+                onNavigateToFighting = { navController.navigate(Routes.FIGHTING_SCREEN.replace("{state}", state ?: "1")) }
+            )
         }
 
         // Fighting Screen (state-based navigation)
@@ -89,4 +94,11 @@ private fun onVictory(navController: NavHostController) {
 // Function to navigate to the Defeat screen
 private fun onDefeat(navController: NavHostController) {
     navController.navigate(Routes.DEFEAT)
+}
+
+// Logic to exit the app
+private fun exitApp() {
+    // Call finish() or System.exit(0) as appropriate for your app
+    android.os.Process.killProcess(android.os.Process.myPid())
+    System.exit(0)
 }
