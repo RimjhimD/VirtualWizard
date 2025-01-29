@@ -15,18 +15,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.virtualwizard.R
-import kotlinx.coroutines.Dispatchers
+import com.example.virtualwizard.utils.fetchRandomQuote
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import java.io.BufferedInputStream
-import java.net.URL
-import javax.net.ssl.HttpsURLConnection
 
 @Composable
-fun LoadingScreen(onNavigateToMenu: () -> Unit) {
+fun LoadingScreen(navController: NavController, navigateToMenu: () -> Unit) {
     val coroutineScope = rememberCoroutineScope()
 
     // Animation for the "Loading" text
@@ -40,31 +36,16 @@ fun LoadingScreen(onNavigateToMenu: () -> Unit) {
         )
     )
 
-    // Loading task states
+    // Loading states
     var quote by remember { mutableStateOf("Fetching quote...") }
-    var isAssetsLoaded by remember { mutableStateOf(false) }
-    var isFirebaseInitialized by remember { mutableStateOf(false) }
-    var loadingComplete by remember { mutableStateOf(false) }
+    var isLoadingComplete by remember { mutableStateOf(false) }
 
-    // Perform all loading tasks
+    // Load tasks
     LaunchedEffect(Unit) {
+        coroutineScope.launch { quote = fetchRandomQuote() } // Fetch a quote
         coroutineScope.launch {
-            quote = fetchRandomQuote() // Fetch a random quote
-        }
-        coroutineScope.launch {
-            delay(2000) // Simulate loading assets
-            isAssetsLoaded = true
-        }
-        coroutineScope.launch {
-            delay(1500) // Simulate Firebase initialization
-            isFirebaseInitialized = true
-        }
-    }
-
-    // Check if all tasks are complete
-    LaunchedEffect(isAssetsLoaded, isFirebaseInitialized, quote) {
-        if (isAssetsLoaded && isFirebaseInitialized && quote != "Fetching quote...") {
-            loadingComplete = true
+            delay(2500) // Simulate loading time
+            isLoadingComplete = true
         }
     }
 
@@ -72,10 +53,9 @@ fun LoadingScreen(onNavigateToMenu: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clickable(enabled = loadingComplete) { onNavigateToMenu() },
+            .clickable(enabled = isLoadingComplete) { navigateToMenu() },
         contentAlignment = Alignment.BottomCenter
     ) {
-        // Background image
         Image(
             painter = painterResource(id = R.drawable.placeholder_bg),
             contentDescription = "Loading Screen Background",
@@ -90,8 +70,7 @@ fun LoadingScreen(onNavigateToMenu: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
         ) {
-            // Line 1: Loading text with breathing effect
-            if (!loadingComplete) {
+            if (!isLoadingComplete) {
                 Text(
                     text = "Loading...",
                     fontSize = 24.sp,
@@ -100,7 +79,6 @@ fun LoadingScreen(onNavigateToMenu: () -> Unit) {
                 )
             }
 
-            // Line 2: Random quote fetched from API
             Text(
                 text = quote,
                 fontSize = 16.sp,
@@ -109,8 +87,7 @@ fun LoadingScreen(onNavigateToMenu: () -> Unit) {
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-            // Line 3: Click to continue (hidden until loading is complete)
-            if (loadingComplete) {
+            if (isLoadingComplete) {
                 Text(
                     text = "Click anywhere to continue",
                     fontSize = 20.sp,
@@ -119,34 +96,6 @@ fun LoadingScreen(onNavigateToMenu: () -> Unit) {
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
-        }
-    }
-}
-
-// Function to fetch a random quote using ZenQuotes API
-suspend fun fetchRandomQuote(): String {
-    return withContext(Dispatchers.IO) {
-        try {
-            val url = URL("https://zenquotes.io/api/random")
-            val connection = url.openConnection() as HttpsURLConnection
-            connection.requestMethod = "GET"
-            connection.connectTimeout = 5000
-            connection.readTimeout = 5000
-
-            if (connection.responseCode == HttpsURLConnection.HTTP_OK) {
-                BufferedInputStream(connection.inputStream).bufferedReader().use { reader ->
-                    val response = reader.readText()
-                    val jsonArray = JSONArray(response)
-                    val json = jsonArray.getJSONObject(0)
-                    val content = json.getString("q")
-                    val author = json.getString("a")
-                    "\"$content\" - $author"
-                }
-            } else {
-                "Unable to fetch a quote. Please try again."
-            }
-        } catch (e: Exception) {
-            "Failed to fetch quote: ${e.localizedMessage}"
         }
     }
 }
