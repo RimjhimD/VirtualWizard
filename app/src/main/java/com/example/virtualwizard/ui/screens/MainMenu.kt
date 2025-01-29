@@ -1,6 +1,5 @@
 package com.example.virtualwizard.ui.screens
 
-import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,17 +26,8 @@ fun MainMenu(
     onOptions: () -> Unit,
     onExit: () -> Unit
 ) {
-    val context = LocalContext.current as Activity
     var showDialog by remember { mutableStateOf(false) } // Dialog visibility
     var hasSavedGame by remember { mutableStateOf(false) } // State for saved game
-    var backPressCount by remember { mutableStateOf(0) } // Tracks back press count
-
-    LaunchedEffect(backPressCount) {
-        if (backPressCount > 0) {
-            kotlinx.coroutines.delay(2000L) // Reset back press counter after 2 seconds
-            backPressCount = 0
-        }
-    }
 
     // Layout
     Box(
@@ -83,12 +72,13 @@ fun MainMenu(
             ) {
                 Button(
                     onClick = {
+                        // Check for saved game when Play Game is pressed
                         checkForSavedGame { exists ->
                             hasSavedGame = exists
                             if (exists) {
-                                onResumeGame()
+                                onResumeGame() // Resume game
                             } else {
-                                onStartNewGame()
+                                onStartNewGame() // Start new game
                             }
                         }
                     },
@@ -100,7 +90,7 @@ fun MainMenu(
                 }
 
                 Button(
-                    onClick = { showDialog = true },
+                    onClick = { showDialog = true }, // Show confirmation dialog
                     colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
                     shape = RoundedCornerShape(8.dp),
                     modifier = Modifier.fillMaxWidth(0.8f)
@@ -150,7 +140,7 @@ fun MainMenu(
                 confirmButton = {
                     TextButton(onClick = {
                         showDialog = false
-                        onStartNewGame()
+                        onStartNewGame() // Overwrite and start new game
                     }) {
                         Text(text = "Proceed", color = Color.Red)
                     }
@@ -166,24 +156,10 @@ fun MainMenu(
             )
         }
     }
-
-    // Handle Back Press for Main Menu
-    BackPressHandler {
-        if (backPressCount == 1) {
-            exitApp(context)
-        } else {
-            backPressCount++
-        }
-    }
 }
 
 // Function to check if a saved game exists
 fun checkForSavedGame(onResult: (Boolean) -> Unit) {
+    // Simulated async check (replace with Firebase logic)
     onResult(false) // Example: No saved game found
-}
-
-// Function to handle exiting the app
-fun exitApp(activity: Activity) {
-    activity.finishAffinity() // Close all activities
-    android.os.Process.killProcess(android.os.Process.myPid()) // Kill process
 }
