@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpb0djp1ldlob"]
+
+[ext_resource type="Script" path="res://scripts/Gameplay.gd" id="1_jk0bw"]
+
+[node name="Gameplay" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jk0bw")
+
+[node name="StoryText" type="Label" parent="."]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 22.0
+offset_right = 101.0
+offset_bottom = 45.0
+text = "sample"
+
+[node name="Choice1" type="Button" parent="."]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 140.0
+offset_right = 116.0
+offset_bottom = 171.0
+text = "Choice1"
+
+[node name="Choice2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 183.0
+offset_right = 118.0
+offset_bottom = 214.0
+text = "Choice2"
+
+[node name="Choice3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 223.0
+offset_right = 119.0
+offset_bottom = 254.0
+text = "Choice3"
+
+[connection signal="pressed" from="Choice1" to="." method="_on_choice_1_pressed"]
+[connection signal="pressed" from="Choice2" to="." method="_on_choice_2_pressed"]
+[connection signal="pressed" from="Choice3" to="." method="_on_choice_3_pressed"]
