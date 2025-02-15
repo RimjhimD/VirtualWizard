@@ -1,0 +1,5 @@
+res://loading_screen.gd
+res://loading_screen.tscn
+res://main_menu.gd
+res://gameplay.gd
+res://assets/story.json
