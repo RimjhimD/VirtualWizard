@@ -1,15 +1,3 @@
-res://loading_screen.gd
-res://loading_screen.tscn
-res://main_menu.gd
-res://gameplay.gd
-res://assets/story.json
-res://scripts/loading_screen.gd
-res://scenes/ui/loading_screen.tscn
-res://scripts/MainMenu.gd
-res://scenes/ui/Gameplay.tscn
-res://scenes/ui/MainMenu.tscn
-res://scenes/ui/Gameplay.gd
 res://scenes/ui/LoadingScreen.tscn
-res://scenes/Gameplay.tscn
+res://scenes/ui/MainMenu.tscn
 res://Gameplay.tscn
-res://scripts/Gameplay.gd
