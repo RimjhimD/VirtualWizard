@@ -21,7 +21,7 @@ func _ready():
 	stylebox.texture = background_image
 	bg_panel.set("res://loading_screen_background.png", stylebox)
 
-	# Connect signals using Callables
+	# Connect signals for timers
 	animation_timer.timeout.connect(_on_animation_timer_timeout)
 	fact_timer.timeout.connect(_on_fact_timer_timeout)
 

@@ -129,3 +129,5 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 50
 text = "Developed by Shinzuu, SKB, Noha & Rii"
 horizontal_alignment = 1
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
