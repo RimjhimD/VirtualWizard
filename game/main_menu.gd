@@ -4,7 +4,7 @@ extends Control
 func _on_start_button_pressed() -> void:
 	print("Start pressed")
 	# Transition to the game scene (Replace with your game's starting scene)
-	get_tree().change_scene_to_file("res://game_scene.tscn")
+	get_tree().change_scene_to_file("res://MainGameScreen.tscn")
 
 # Function to go to the options screen
 func _on_options_pressed() -> void:
