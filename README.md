@@ -1,5 +1,7 @@
 # Virtual Wizard
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 ## Overview
 **Virtual Wizard** is a fantasy, story-driven, turn-based mobile game that uses smartphone sensors for an interactive spell-casting experience. Players perform real-world gestures to cast spells, and the accuracy of these gestures affects the spell's power and effect. The game features branching storylines and multiple endings, making player choices meaningful.  
 
