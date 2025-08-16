@@ -35,23 +35,23 @@
 1. Clone the repository:  
    ```bash
    git clone https://github.com/yourusername/VirtualWizard.git
-Open the project in Android Studio.
+2. Open the project in Android Studio.
 
-Build and run on an Android device or emulator.
+3. Build and run on an Android device or emulator.
 
-Usage
-Perform gestures to cast spells in turn-based battles.
+## Usage
+- Perform gestures to cast spells in turn-based battles.
 
-Make choices throughout the story to influence the outcome.
+- Make choices throughout the story to influence the outcome.
 
-Authors
-Md Nishadul Islam Chy Shezan
+## Authors
+- Md Nishadul Islam Chy Shezan
 
-Md Sakib
+- Md Sakib
 
-Fariha Rashid Noha
+- Fariha Rashid Noha
 
-Rimjhim Dey
+- Rimjhim Dey
 
 License
 This project is licensed under the MIT License. See LICENSE for details.
